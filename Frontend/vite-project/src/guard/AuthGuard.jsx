@@ -1,10 +1,23 @@
-import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectIsAuthenticated  } from "../store/userSlice/user.selectors";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { selectIsAuthenticated, selectLoading } from '../store/userSlice/user.selectors';
+import { verifyToken } from '../store/userSlice/user.thunk';
 
 const AuthGuard = ({ children }) => {
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  return isAuthenticated  ? children : <Navigate to="/login" replace />;
+  const loading = useSelector(selectLoading);
+
+  useEffect(() => {
+    dispatch(verifyToken());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
 export default AuthGuard;

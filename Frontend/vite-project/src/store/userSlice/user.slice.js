@@ -1,29 +1,40 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { registerUser,loginUser,logoutUser } from './user.thunk';
+import { registerUser,loginUser,logoutUser,verifyToken } from './user.thunk';
 
 const userSlice = createSlice({
     name: 'auth',
     initialState: {
         user: null,
-        isAuthenticated:  null, 
+        isAuthenticated: !!localStorage.getItem('token'), 
+        loading: false, 
     },
     extraReducers: (builder) => {
         builder
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.user = action.payload.user;
                 state.isAuthenticated = true;
-                localStorage.setItem('token', action.payload.token); 
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.user = action.payload.user;
                 state.isAuthenticated = true;
-                localStorage.setItem('token', action.payload.token); 
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.user = null;
                 state.isAuthenticated = false;
-                localStorage.removeItem('token')
             })
+            .addCase(verifyToken.pending, (state) => {
+                state.loading = true; 
+              })
+              .addCase(verifyToken.fulfilled, (state, action) => {
+                state.user = action.payload.user;
+                state.isAuthenticated = true;
+                state.loading = false; 
+              })
+              .addCase(verifyToken.rejected, (state) => {
+                state.user = null;
+                state.isAuthenticated = false;
+                state.loading = false; 
+              });
     },
 });
 

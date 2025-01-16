@@ -1,6 +1,7 @@
 const argon2 = require('argon2');
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken'); 
+const jwt = require('jsonwebtoken');
 
 const postRegisterUser = async (req, res) => {
   const { username,  password } = req.body;
@@ -60,10 +61,26 @@ const postLoginUser = async (req, res) => {
 
 const postLogOutUser = async (req, res) => {
   res.status(200).json({ message: 'User logged out successfully' });
-
 }
+
+const verifyToken = (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    res.status(200).json({ message: 'Token is valid' });
+  });
+};
+
 module.exports = {     
     postRegisterUser,
     postLoginUser,
-    postLogOutUser
+    postLogOutUser,  
+    verifyToken,
+
 };
