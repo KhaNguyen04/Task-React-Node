@@ -12,27 +12,24 @@ A simple Todo application that allows users to add, edit, delete, and mark tasks
 ### 1. Clone the Repository
 ### 2. Set up backend:
 Install Dependencies: 
-                ```
-                cd backend
-                npm install
-                ```
+
+        cd backend
+        npm instlall
 
 Create a .env file:
-                ```
-                PORT=3000
-                MONGO_URI=your-mongodb-connection-string
-                ACCESS_TOKEN_SECRET=your-jwt-secret
-                ```
+                
+        PORT=3000
+        MONGO_URI=your-mongodb-connection-string
+        ACCESS_TOKEN_SECRET=your-jwt-secret
+                
 Run seed file: 
-                 ```
-                npm run seed
-                 ```
-Run file: 
-                ```
-                npm run dev                
-                ```
 
-### 2. Set up frontend:
+                npm run seed
+Run file: 
+
+                npm run dev                
+
+### 3. Set up frontend:
         Install Dependencies: npm install
         Run file: npm run dev
 
