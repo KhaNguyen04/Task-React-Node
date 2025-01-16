@@ -14,7 +14,7 @@ A simple Todo application that allows users to add, edit, delete, and mark tasks
 Install Dependencies: 
 
         cd backend
-        npm instlall
+        npm install
 
 Create a .env file:
                 
@@ -30,8 +30,12 @@ Run file:
         npm run dev                
 
 ### 3. Set up frontend:
-        Install Dependencies: npm install
-        Run file: npm run dev
+Install Dependencies: 
+        
+        npm install
+Run file: 
+
+        npm run dev
 
 ## Endpoints Information
 
