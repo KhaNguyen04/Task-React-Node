@@ -4,28 +4,33 @@ import LoginPage from './pages/LogInPage';
 import RegisterPage from './pages/RegisterPage';
 import TodoPage from './pages/TodoPage';
 import { useSelector } from 'react-redux';
-import { selectToken } from './store/userSlice/user.selectors';
+import { selectIsAuthenticated } from './store/userSlice/user.selectors';
 import { ThemeProvider } from '@mui/material/styles';
+import AuthGuard from './guard/AuthGuard';
 import theme from './theme';
 function App() {
-  const token = useSelector(selectToken);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   return (
     <>
     <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
             <Route path="/register" 
-              element={token ? <Navigate to="/todos" replace /> : <RegisterPage />}
+              element={isAuthenticated? <Navigate to="/todos" replace /> : <RegisterPage />}
             />
             <Route
               path="/login"
-              element={token ? <Navigate to="/todos" replace /> : <LoginPage />}
+              element={isAuthenticated ? <Navigate to="/todos" replace /> : <LoginPage />}
             />
             <Route
               path="/todos"
-              element={token ? <TodoPage /> : <Navigate to="/login" replace />}
+              element={
+                <AuthGuard>
+                  <TodoPage />
+                </AuthGuard>
+              }             
             />
-            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </BrowserRouter>
     </ThemeProvider>

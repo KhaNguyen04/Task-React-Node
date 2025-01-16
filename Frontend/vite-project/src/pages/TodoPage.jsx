@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createTask, fetchAllTasks, modifyTask, removeTask } from '../store/todoSlice/todo.thunk';
 import { selectTodos } from '../store/todoSlice/todo.selectors';
-import { logout } from '../store/userSlice/user.slice';
+import { logoutUser } from '../store/userSlice/user.thunk';
 import { Button, TextField, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox } from '@mui/material';
-
+import { selectUser } from '../store/userSlice/user.selectors';
 const TodoPage = () => {
   const dispatch = useDispatch();
   const tasks = useSelector(selectTodos);
@@ -12,12 +12,10 @@ const TodoPage = () => {
   const [editTask, setEditTask] = useState('');
   const [editTaskId, setEditTaskId] = useState(null);
 
-  // Fetch tasks on component mount
   useEffect(() => {
     dispatch(fetchAllTasks());
   }, [dispatch]);
 
-  // Add a new task
   const handleAddTask = (e) => {
     e.preventDefault();
     if (newTask.trim()) {
@@ -26,7 +24,6 @@ const TodoPage = () => {
     }
   };
 
-  // Toggle task completion
   const handleToggleComplete = (id) => {
     const task = tasks.find((task) => task._id === id);
     if (task) {
@@ -34,13 +31,11 @@ const TodoPage = () => {
     }
   };
 
-  // Start editing a task
   const handleEditTask = (id, name) => {
     setEditTask(name);
     setEditTaskId(id);
   };
 
-  // Save the edited task
   const handleSaveEditTask = () => {
     if (editTask.trim()) {
       const task = tasks.find((task) => task._id === editTaskId);
@@ -52,19 +47,17 @@ const TodoPage = () => {
     }
   };
 
-  // Cancel editing
   const handleCancelEditTask = () => {
     setEditTask('');
     setEditTaskId(null);
   };
 
-  // Delete a task
   const handleDeleteTask = (id) => {
     dispatch(removeTask(id));
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
   };
 
   return (

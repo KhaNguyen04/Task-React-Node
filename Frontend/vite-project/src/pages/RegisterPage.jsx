@@ -12,11 +12,11 @@ const RegisterPage = () => {
 
   const handleRegister = () => {
     const userData = { username, password };
-    dispatch(registerUser(userData)); // Dispatch the registerUser thunk
+    dispatch(registerUser(userData)); 
   };
 
   const goToLogIn = () => {
-    navigate('/login'); // Navigate to the Login page
+    navigate('/login'); 
   };
 
   return (

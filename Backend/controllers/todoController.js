@@ -1,6 +1,5 @@
 const Todo = require('../models/Todo');
 
-// POST /tasks: Add a new task
 const addTask = async (req, res) => {
     const { name } = req.body;
     const user = req.user.id; // Extracted from the JWT middleware
@@ -24,7 +23,6 @@ const addTask = async (req, res) => {
 };
 
 
-// GET /tasks: Retrieve all tasks for a user
 const getAllTasks = async (req, res) => {
     const user = req.user.id; // Extracted from the JWT middleware
 
@@ -42,7 +40,6 @@ const getAllTasks = async (req, res) => {
 };
 
 
-// PUT /tasks/:id: Update a task by ID
 const updateTask = async (req, res) => {
     const { id } = req.params;
     const { name, complete } = req.body;
@@ -76,13 +73,11 @@ const updateTask = async (req, res) => {
 };
 
 
-// DELETE /tasks/:id: Delete a task by ID
 const deleteTask = async (req, res) => {
     const { id } = req.params;
-    const userId = req.user.id; // Extracted from the JWT middleware
+    const userId = req.user.id; 
 
     try {
-        // Find and delete the task if it belongs to the user
         const task = await Todo.findOneAndDelete({ _id: id, user: userId });
         if (!task) {
             return res.status(404).json({ message: 'Task not found or unauthorized' });

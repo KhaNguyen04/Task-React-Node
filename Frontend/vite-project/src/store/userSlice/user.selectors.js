@@ -1,2 +1,13 @@
-export const selectUser = (state) => state.user.user;
-export const selectToken = (state) => state.user.token;
+import { createSelector } from 'reselect';
+
+const selectUserState = (state) => state.user;
+
+export const selectUser = createSelector(
+  [selectUserState], 
+  (userState) => userState.user 
+);
+
+export const selectIsAuthenticated = createSelector(
+  [selectUserState], // Input selector
+  (userState) => userState.isAuthenticated 
+);

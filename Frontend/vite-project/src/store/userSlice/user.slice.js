@@ -1,36 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { registerUser,loginUser } from './user.thunk'; // Only import registerUser since login is now in reducers
+import { registerUser,loginUser,logoutUser } from './user.thunk';
 
 const userSlice = createSlice({
     name: 'auth',
     initialState: {
         user: null,
-        token: localStorage.getItem('token') || null, // Load token from localStorage if available
-    },
-    reducers: {
-        logout: (state) => {
-            state.user = null;
-            state.token = null;
-            localStorage.removeItem('user'); // Remove user from localStorage
-            localStorage.removeItem('token'); // Remove token from localStorage
-        },
+        isAuthenticated:  null, 
     },
     extraReducers: (builder) => {
         builder
-            // Register
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.user = action.payload.user;
-                state.token = action.payload.token;
-                localStorage.setItem('token', action.payload.token); // Store token in localStorage
+                state.isAuthenticated = true;
+                localStorage.setItem('token', action.payload.token); 
             })
-            // Login
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.user = action.payload.user;
-                state.token = action.payload.token;
-                localStorage.setItem('token', action.payload.token); // Store token in localStorage
-            });
+                state.isAuthenticated = true;
+                localStorage.setItem('token', action.payload.token); 
+            })
+            .addCase(logoutUser.fulfilled, (state) => {
+                state.user = null;
+                state.isAuthenticated = false;
+                localStorage.removeItem('token')
+            })
     },
 });
 
-export const { logout } = userSlice.actions;
 export default userSlice.reducer;

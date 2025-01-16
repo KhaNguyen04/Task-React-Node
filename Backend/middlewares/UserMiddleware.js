@@ -1,6 +1,5 @@
 const validator = require('validator');
 
-// Middleware to validate new user registration
 const validateNewUser = (req, res, next) => {
   const { username, password } = req.body;
 
@@ -34,14 +33,12 @@ const validateNewUser = (req, res, next) => {
     });
   }
 
-  // Sanitize inputs
   req.body.username = validator.escape(username);
   req.body.password = validator.escape(password);
 
   next();
 };
 
-// Middleware to validate user login (Username and Password only)
 const validateLoginUser = (req, res, next) => {
   const { username, password } = req.body;
 
@@ -53,7 +50,6 @@ const validateLoginUser = (req, res, next) => {
     return res.status(400).json({ message: 'Username must be alphanumeric!' });
   }
 
-  // Sanitize inputs
   req.body.username = validator.escape(username);
   req.body.password = validator.escape(password);
 
