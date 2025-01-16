@@ -23,11 +23,11 @@ A simple Todo application that allows users to add, edit, delete, and mark tasks
         Run file: npm run dev
 
 ## Endpoints information:
-    - **Authentication**
+- **Authentication**:
         POST /auth/register: Register a new user.
         POST /auth/login: Log in a user.
         POST /auth/logout: Log out the current user.
-    - **Tasks**
+- **Tasks**:
         GET /tasks: Get all tasks for the logged-in user.
         POST /tasks: Create a new task.
         PUT /tasks/:id: Update a task (e.g., mark as completed).
