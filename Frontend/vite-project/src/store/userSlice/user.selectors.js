@@ -8,6 +8,6 @@ export const selectUser = createSelector(
 );
 
 export const selectIsAuthenticated = createSelector(
-  [selectUserState], // Input selector
+  [selectUserState], 
   (userState) => userState.isAuthenticated 
 );
